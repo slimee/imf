@@ -5,6 +5,7 @@ IMF est une API Java avec:
   - Swagger
   - Dockerfile et rancher-pipeline (build)
   - Un peu de tests d'integ et de composants
+  - une base postgres
 
 Il n'y a pas de couche service, notez qu'il faudrait remédier à cela pour que cela soit digne de IMF!
 
