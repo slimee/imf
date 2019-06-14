@@ -10,7 +10,7 @@ IMF est une API Java avec:
 Il n'y a pas de couche service, notez qu'il faudrait remédier à cela pour que cela soit digne de IMF!
 
 Il y a les routes suivantes:
-  - auth-controller : se connecter cédric/password (admin) et slim/password (spy) (il n'y a que 2 rôles)
+  - auth-controller : se connecter  (il n'y a que 2 rôles)
   - spy-controller : l'admin peut créer/supprimer des spys. (cédric est donc seul et s'il se supprime de la base, c'est terminé!)
   - mission-controller : l'admin peut poster une mission pour un spy, le spy consulte la liste de ses missions.
 
