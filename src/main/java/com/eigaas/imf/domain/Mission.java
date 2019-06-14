@@ -17,7 +17,7 @@ public class Mission extends AbstractAuditableEntity<Spy, Long> implements Seria
     @Column
     private String codename;
 
-    @Column
+    @ManyToOne(fetch = FetchType.LAZY)
     private Spy spy;
 
 }

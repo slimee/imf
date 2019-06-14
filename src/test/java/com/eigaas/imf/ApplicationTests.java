@@ -39,7 +39,8 @@ public class ApplicationTests {
     }
 
     @Test
-    public void getAllMissions() throws Exception {
+    @WithUserDetails(value = "slim")
+    public void getMyMissions() throws Exception {
         this.mockMvc
             .perform(
                 get("/v1/missions")
@@ -49,29 +50,14 @@ public class ApplicationTests {
     }
 
     @Test
-    public void testSave() throws Exception {
-
+    public void testSaveNoAuth() throws Exception {
         this.mockMvc
             .perform(
                 post("/v1/missions")
-                    .content(this.objectMapper.writeValueAsBytes(MissionForm.builder().name("test").build()))
+                    .content(this.objectMapper.writeValueAsBytes(MissionForm.builder().missionCodeName("test").spyCodeName("intruder").build()))
                     .contentType(MediaType.APPLICATION_JSON)
             )
             .andExpect(status().is4xxClientError());
-
-    }
-
-    @Test
-    @WithUserDetails()
-    public void testSaveWithMock() throws Exception {
-
-        this.mockMvc
-            .perform(
-                post("/v1/missions")
-                    .content(this.objectMapper.writeValueAsBytes(MissionForm.builder().name("test").build()))
-                    .contentType(MediaType.APPLICATION_JSON)
-            )
-            .andExpect(status().isCreated());
     }
 
 }

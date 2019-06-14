@@ -29,68 +29,80 @@ public class IntegrationTests {
     @Autowired
     ObjectMapper objectMapper;
 
-    private String token;
+    private String tokenSlim;
+    private String tokenCedric;
 
     @Before
     public void setup() {
         RestAssured.port = this.port;
-        token = given()
-            .contentType(ContentType.JSON)
-            .body(AuthenticationRequest.builder().username("user").password("password").build())
-            .when().post("/auth/signin")
-            .andReturn().jsonPath().getString("token");
-        log.debug("Got token:" + token);
+        tokenSlim = given()
+                .contentType(ContentType.JSON)
+                .body(AuthenticationRequest.builder().username("slim").password("password").build())
+                .when().post("/auth/signin")
+                .andReturn().jsonPath().getString("token");
+        log.debug("Got tokenSlim:" + tokenSlim);
+
+        tokenCedric = given()
+                .contentType(ContentType.JSON)
+                .body(AuthenticationRequest.builder().username("cédric").password("password").build())
+                .when().post("/auth/signin")
+                .andReturn().jsonPath().getString("token");
+        log.debug("Got tokenCedric:" + tokenSlim);
     }
 
     @Test
-    public void getAllMissions() throws Exception {
-        //@formatter:off
-         given()
-
-            .accept(ContentType.JSON)
-
-        .when()
-            .get("/v1/missions")
-
-        .then()
-            .assertThat()
-            .statusCode(HttpStatus.SC_OK);
-         //@formatter:on
-    }
-
-    @Test
-    public void testSave() throws Exception {
-        //@formatter:off
+    public void getMyMissions() throws Exception {
         given()
+                .accept(ContentType.JSON)
+                .header("Authorization", "Bearer " + tokenSlim)
 
-            .contentType(ContentType.JSON)
-            .body(MissionForm.builder().name("test").build())
+                .when()
+                .get("/v1/missions")
 
-        .when()
-            .post("/v1/missions")
-
-        .then()
-            .statusCode(403);
-
-        //@formatter:on
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.SC_OK);
     }
 
     @Test
-    public void testSaveWithAuth() throws Exception {
-
-        //@formatter:off
+    public void testSaveNoAuth() throws Exception {
         given()
-            .header("Authorization", "Bearer "+token)
-            .contentType(ContentType.JSON)
-            .body(MissionForm.builder().name("test").build())
+                .contentType(ContentType.JSON)
+                .body(MissionForm.builder().missionCodeName("test").build())
 
-        .when()
-            .post("/v1/missions")
+                .when()
+                .post("/v1/missions")
 
-        .then()
-            .statusCode(201);
+                .then()
+                .statusCode(403);
+    }
 
-        //@formatter:on
+    @Test
+    public void testSaveSlim() throws Exception {
+        given()
+                .header("Authorization", "Bearer " + tokenSlim)
+                .contentType(ContentType.JSON)
+                .body(MissionForm.builder().missionCodeName("fail unauthorized").spyCodeName("slim").build())
+
+                .when()
+                .post("/v1/missions")
+
+                .then()
+                .statusCode(403);
+    }
+
+    @Test
+    public void testSaveCedric() throws Exception {
+        given()
+                .header("Authorization", "Bearer " + tokenCedric)
+                .contentType(ContentType.JSON)
+                .body(MissionForm.builder().missionCodeName("pass the test slim!!").spyCodeName("slim").build())
+
+                .when()
+                .post("/v1/missions")
+
+                .then()
+                .statusCode(201);
     }
 
 }

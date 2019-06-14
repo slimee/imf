@@ -16,9 +16,9 @@ spring:
 
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/spies
-    username: postgres
-    password: m74KJzvUU3
+    url: ${DB_URL}
+    username: ${DB_NAME}
+    password: ${DB_PWD}
     cachePrepStmts: true
     prepStmtCacheSize: 250
     prepStmtCacheSqlLimit: 2048

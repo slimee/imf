@@ -1,6 +1,7 @@
 package com.eigaas.imf.web;
 
 import com.eigaas.imf.domain.Spy;
+import com.eigaas.imf.exception.MissionNotFoundException;
 import com.eigaas.imf.repository.SpyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,18 +27,6 @@ public class SpyController {
     public SpyController(SpyRepository spies) {
         this.spies = spies;
     }
-//
-//    @GetMapping("/me")
-//    public ResponseEntity currentUser(@AuthenticationPrincipal UserDetails userDetails){
-//        Map<Object, Object> model = new HashMap<>();
-//        model.put("username", userDetails.getUsername());
-//        model.put("roles", userDetails.getAuthorities()
-//            .stream()
-//            .map(a -> ((GrantedAuthority) a).getAuthority())
-//            .collect(toList())
-//        );
-//        return ok(model);
-//    }
 
     @GetMapping("")
     public ResponseEntity all() {
@@ -67,20 +56,5 @@ public class SpyController {
         this.spies.delete(existed);
         return noContent().build();
     }
-
-//    @GetMapping("/{id}")
-//    public ResponseEntity get(@PathVariable("id") Long id) {
-//        return ok(this.spies.findById(id).orElseThrow(MissionNotFoundException::new));
-//    }
-
-
-//    @PutMapping("/{id}")
-//    public ResponseEntity update(@PathVariable("id") Long id, @RequestBody SpyForm form) {
-//        Spy existed = this.spies.findById(id).orElseThrow(MissionNotFoundException::new);
-//        existed.setUsername(form.getCodename());
-//
-//        this.spies.save(existed);
-//        return noContent().build();
-//    }
 
 }

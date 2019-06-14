@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MissionForm {
-    private String name;
-    private Long spyId;
+    private String missionCodeName;
+    private String spyCodeName;
 }

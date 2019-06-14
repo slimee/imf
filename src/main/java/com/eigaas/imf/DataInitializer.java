@@ -11,6 +11,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class DataInitializer implements CommandLineRunner {
     PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
         log.debug("initializing spies data...");
         final Spy slim = this.spies.save(getSpy("slim", "password", Arrays.asList("ROLE_USER")));

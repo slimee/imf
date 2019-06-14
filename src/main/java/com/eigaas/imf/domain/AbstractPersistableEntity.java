@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Setter
 @Getter
 @MappedSuperclass
-public abstract  class AbstractPersistableEntity<ID> implements Serializable {
+abstract  class AbstractPersistableEntity<ID> implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

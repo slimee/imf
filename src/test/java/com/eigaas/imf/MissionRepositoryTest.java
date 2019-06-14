@@ -1,6 +1,7 @@
 package com.eigaas.imf;
 
 import com.eigaas.imf.domain.Mission;
+import com.eigaas.imf.domain.Spy;
 import com.eigaas.imf.repository.MissionRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,10 +20,13 @@ public class MissionRepositoryTest {
 
     @Test
     public void mapping() {
-        Mission saved = this.missions.save( Mission.builder().codename("test").build());
+        Mission saved = this.missions.save( Mission.builder()
+                .codename("test")
+                .spy(Spy.builder().username("titi").password("tutu").build())
+                .build());
         Mission v = this.missions.getOne(saved.getId());
         assertThat(v.getCodename()).isEqualTo("test");
-        assertThat(v.getId()).isNotNull();
+        assertThat(v.getSpy().getUsername()).isEqualTo("titi");
         assertThat(v.getId()).isGreaterThan(0);
     }
 }

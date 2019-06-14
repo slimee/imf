@@ -1,5 +1,7 @@
 package com.eigaas.imf.web;
 
+import com.eigaas.imf.exception.MissionNotFoundException;
+import com.eigaas.imf.exception.SpyNotFoundException;
 import com.eigaas.imf.security.jwt.InvalidJwtAuthenticationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,12 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(value = {MissionNotFoundException.class})
     public ResponseEntity missionNotFound(MissionNotFoundException ex, WebRequest request) {
+        log.debug("handling MissionNotFoundException...");
+        return notFound().build();
+    }
+
+    @ExceptionHandler(value = {SpyNotFoundException.class})
+    public ResponseEntity spyNotFound(SpyNotFoundException ex, WebRequest request) {
         log.debug("handling MissionNotFoundException...");
         return notFound().build();
     }

@@ -32,10 +32,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+
                 .antMatchers("/auth/signin").permitAll()
-                .antMatchers(HttpMethod.GET, "/missions/**").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/missions/**").hasRole("ADMIN")
+
+                .antMatchers(HttpMethod.DELETE, "/v1/missions/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/v1/missions/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/v1/missions/**").hasRole("USER")
+
+                .antMatchers("/v1/spies/**").hasRole("ADMIN")
+
                 .antMatchers(HttpMethod.GET, "/v2/api-docs/**").permitAll()
                 .antMatchers("/v2/api-docs",
                         "/configuration/ui",
@@ -43,7 +48,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/configuration/security",
                         "/swagger-ui.html",
                         "/webjars/**").permitAll()
-                .antMatchers("/v1/spies/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));
